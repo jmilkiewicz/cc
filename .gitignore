@@ -1,0 +1,33 @@
+*.class
+target
+#IDEA files
+.idea
+*.iml
+*.ipr
+*.iws
+# Package Files #
+*.jar
+*.war
+*.ear
+# Eclipse
+.settings
+.p*
+.c*
+*.mul
+# Misc
+*.log
+.DS_Store
+MANIFEST.MF
+ConfigRoot
+rebel.xml
+raptor.xml
+var/cache
+jarsToSkip.txt
+
+# It's upsetting, but we need to keep some of temp_config_*.xml under version control
+temp_persist_config_001.xml
+temp_persist_config_005.xml
+temp_persist_config_012.xml
+temp_persist_config_015.xml
+temp_persist_config_021.xml
+temp_persist_config_023.xml
