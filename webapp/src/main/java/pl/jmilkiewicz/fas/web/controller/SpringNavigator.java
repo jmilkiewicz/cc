@@ -50,6 +50,11 @@ public class SpringNavigator implements Navigator {
         result = new ResponseEntity(map(uriComponentsBuilder, view), HttpStatus.OK);
     }
 
+    @Override
+    public void notFound() {
+        result = new ResponseEntity(HttpStatus.NOT_FOUND);
+    }
+
     private ResponseBody map(UriComponentsBuilder uriComponentsBuilder, View view) {
         String type = view.getSelfReference().getType();
         return new ResponseBody(computeUri(uriComponentsBuilder, view.getSelfReference()), type, view.getData());
