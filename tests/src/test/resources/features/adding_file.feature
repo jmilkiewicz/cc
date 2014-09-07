@@ -13,7 +13,8 @@ Feature: Add asset for a brand
       | FileName    |  DocumentDate   | Content        |
       | file.txt    |   2011-01-01    |  someContent   |
     Then the following documents will exist in the System
-      | FileName    |  DocumentDate   | Content       | UploadPerson |
-      | file.txt    |   01/01/11      | someContent   | John         |
-    And "John" will see his files
+      |Id | FileName    |  DocumentDate   | Content       | UploadPerson |
+      |0  | file.txt    |   01/01/11      | someContent   | John         |
+    And "John" will go to files uploaded by "John"
+    #TODO a może will receive a feedback that his operation was succesfull
     And "John" will see a message indicating success
