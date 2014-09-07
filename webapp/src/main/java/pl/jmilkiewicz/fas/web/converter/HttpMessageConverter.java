@@ -41,12 +41,10 @@ public class HttpMessageConverter extends AbstractHttpMessageConverter<ResponseB
 
     @Override
     protected void writeInternal(ResponseBody responseBody, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
-
         request.setAttribute("it", responseBody);
         try {
             HttpServletResponse servletResponse = getServletResponse(outputMessage);
             request.getRequestDispatcher("/WEB-INF/jsp/" + responseBody.getType() + ".jsp").forward(request, servletResponse);
-            System.out.println("ASDSADa");
         } catch (ServletException e) {
             throw new IOException(e);
         }
