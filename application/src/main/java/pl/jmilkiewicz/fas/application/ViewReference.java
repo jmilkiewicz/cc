@@ -13,7 +13,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class ViewReference {
-    public static ViewReference DEFAULT = new ViewReference("");
+    public static ViewReference DEFAULT = new ViewReference("documents");
     private String type;
     private List<Argument> arguments = new LinkedList<Argument>();
     private String contextData;
