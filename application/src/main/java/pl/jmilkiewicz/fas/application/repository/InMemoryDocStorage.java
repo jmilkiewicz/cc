@@ -4,10 +4,7 @@ import pl.jmilkiewicz.fas.application.model.Document;
 import pl.jmilkiewicz.fas.application.model.DocumentData;
 import pl.jmilkiewicz.fas.application.model.DocumentStorage;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -34,5 +31,11 @@ public class InMemoryDocStorage implements DocumentStorage{
             }
         }
         return result;
+    }
+
+    @Override
+    public Collection<Document> getByUploadTimePeriod(Date from, Date to) {
+        //fake implementation
+        return new LinkedList<>(docs);
     }
 }

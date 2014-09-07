@@ -6,6 +6,7 @@ import pl.jmilkiewicz.fas.application.model.DocumentStorage;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -66,5 +67,11 @@ public class MockSystemDocuments implements SystemDocuments, DocumentStorage {
             }
         }
         return documents;
+    }
+
+    @Override
+    public Collection<Document> getByUploadTimePeriod(Date from, Date to) {
+        //fake
+        return docs;
     }
 }

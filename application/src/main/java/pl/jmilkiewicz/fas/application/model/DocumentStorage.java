@@ -4,6 +4,7 @@ import pl.jmilkiewicz.fas.application.FileMetaData;
 
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,4 +18,5 @@ public interface DocumentStorage {
 
     Collection<Document> getByUserName(String userName);
 
+    Collection<Document> getByUploadTimePeriod(Date from, Date to);
 }
