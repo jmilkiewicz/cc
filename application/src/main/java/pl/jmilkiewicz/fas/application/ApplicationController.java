@@ -50,15 +50,15 @@ public class ApplicationController {
 
     public void filesUploadedBetween(String startDate, String endDate, Navigator navigator) throws ParseException {
         //TODO a może lepiej ustawić datę mocno w tył
-        Date from = parseOrReturnDefaultOnEmpty(startDate, null);
+        Date from = parseOrReturnDefaultOnNull(startDate, null);
         //TODO a może lepiej ustawić datę mocno w przód
-        Date to = parseOrReturnDefaultOnEmpty(endDate, null);
+        Date to = parseOrReturnDefaultOnNull(endDate, null);
 
         Collection<Document> documentsFound = documentStorage.getByUploadTimePeriod(from, to);
         navigator.display(new View(ViewReference.DEFAULT,documentsFound));
     }
 
-    private Date parseOrReturnDefaultOnEmpty(String date, Date defaultReturn) throws ParseException {
+    private Date parseOrReturnDefaultOnNull(String date, Date defaultReturn) throws ParseException {
         Date result = defaultReturn;
         if(date != null){
             result = toDate(date);
@@ -66,10 +66,10 @@ public class ApplicationController {
         return result;
     }
 
-    public void getDocumentById(String documentId) {
+    public void getDocumentById(String documentId, Navigator navigator) {
         Document documentById = documentStorage.getDocumentById(Long.parseLong(documentId));
-        if(documentById != null){
-
+        if(documentById == null){
+            navigator.notFound();
         }
     }
 }
