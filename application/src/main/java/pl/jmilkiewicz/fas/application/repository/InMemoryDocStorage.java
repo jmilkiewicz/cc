@@ -4,6 +4,7 @@ import pl.jmilkiewicz.fas.application.model.Document;
 import pl.jmilkiewicz.fas.application.model.DocumentData;
 import pl.jmilkiewicz.fas.application.model.DocumentStorage;
 
+import java.io.ByteArrayInputStream;
 import java.util.*;
 
 /**
@@ -37,5 +38,13 @@ public class InMemoryDocStorage implements DocumentStorage{
     public Collection<Document> getByUploadTimePeriod(Date from, Date to) {
         //fake implementation
         return new LinkedList<>(docs);
+    }
+
+    @Override
+    public Document getDocumentById(long documentId) {
+        if(documentId > docs.size()){
+            return null;
+        }
+        return docs.get((int) documentId);
     }
 }

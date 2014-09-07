@@ -67,4 +67,12 @@ public class ApplicationController {
         }
         return result;
     }
+
+    public InputStream getDocumentById(String documentId) {
+        Document documentById = documentStorage.getDocumentById(Long.parseLong(documentId));
+        if(documentById != null){
+            return documentById.getDocumentData().getData();
+        }
+        return null;
+    }
 }

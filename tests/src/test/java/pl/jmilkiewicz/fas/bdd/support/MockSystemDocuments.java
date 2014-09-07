@@ -74,4 +74,9 @@ public class MockSystemDocuments implements SystemDocuments, DocumentStorage {
         //fake
         return docs;
     }
+
+    @Override
+    public Document getDocumentById(long documentId) {
+        throw new UnsupportedOperationException();
+    }
 }

@@ -19,4 +19,6 @@ public interface DocumentStorage {
     Collection<Document> getByUserName(String userName);
 
     Collection<Document> getByUploadTimePeriod(Date from, Date to);
+
+    Document getDocumentById(long documentId);
 }
