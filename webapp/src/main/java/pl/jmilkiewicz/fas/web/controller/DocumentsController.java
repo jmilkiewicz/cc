@@ -24,9 +24,27 @@ public class DocumentsController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> getAllDocuments(@RequestParam("file") MultipartFile file) throws IOException, ParseException {
-        SpringNavigator springNavigator = new SpringNavigator(ServletUriComponentsBuilder.fromCurrentServletMapping());
+        SpringNavigator springNavigator = springNavigator();
         applicationController.addFile(file.getInputStream(), new FileMetaData("fake","2000-01-01","fakeFileName"), springNavigator);
         return springNavigator.getResult();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, params = "user")
+    public ResponseEntity<?> getDocumentsByUserName(@RequestParam("user") String userName,@RequestParam(value="message", required = false) String message) throws IOException, ParseException {
+        SpringNavigator springNavigator = springNavigator();
+        applicationController.filesUploadedBy(userName, message, springNavigator);
+        return springNavigator.getResult();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, params = "!user")
+    public ResponseEntity<?> getDocumentsByDates(@RequestParam(value ="from", required = false) String from, @RequestParam(value="to", required = false) String to) throws IOException, ParseException {
+        SpringNavigator springNavigator = springNavigator();
+        applicationController.filesUploadedBetween(from, to, springNavigator);
+        return springNavigator.getResult();
+    }
+
+    private SpringNavigator springNavigator() {
+        return new SpringNavigator(ServletUriComponentsBuilder.fromCurrentServletMapping());
     }
 
 }
