@@ -1,6 +1,7 @@
 package pl.jmilkiewicz.fas.web.converter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
@@ -30,7 +31,7 @@ public class HttpMessageConverter extends AbstractHttpMessageConverter<ResponseB
 
     protected boolean supports(Class<?> clazz)
     {
-        return true;
+        return ResponseBody.class.isAssignableFrom(clazz);
     }
 
     protected ResponseBody readInternal(Class<? extends ResponseBody> clazz, HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException
