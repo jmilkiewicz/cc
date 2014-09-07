@@ -3,6 +3,7 @@ package pl.jmilkiewicz.fas.application.model;
 import pl.jmilkiewicz.fas.application.FileMetaData;
 
 import java.io.InputStream;
+import java.util.Collection;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,5 +13,8 @@ import java.io.InputStream;
  * To change this template use File | Settings | File Templates.
  */
 public interface DocumentStorage {
-    void addDocument(Document doc);
+    Document addDocument(DocumentData documentData);
+
+    Collection<Document> getByUserName(String userName);
+
 }

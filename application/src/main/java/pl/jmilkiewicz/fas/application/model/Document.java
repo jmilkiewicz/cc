@@ -11,37 +11,19 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 public class Document {
-    private final String name;
-    private final String uploadPerson;
-    private final Date documentDate;
-    private final Date uploadDate;
-    private final InputStream data;
+    private final long id;
+    private final DocumentData documentData;
 
-    public Document(String name, String uploadPerson, Date documentDate, Date uploadDate, InputStream data) {
-        this.name = name;
-        this.uploadPerson = uploadPerson;
-        this.documentDate = documentDate;
-        this.uploadDate = uploadDate;
-        this.data = data;
+    public Document(long id, DocumentData documentData) {
+        this.id = id;
+        this.documentData = documentData;
     }
 
-    public String getName() {
-        return name;
+    public long getId() {
+        return id;
     }
 
-    public String getUploadPerson() {
-        return uploadPerson;
-    }
-
-    public Date getDocumentDate() {
-        return new Date(documentDate.getTime());
-    }
-
-    public Date getUploadDate() {
-        return new Date(uploadDate.getTime());
-    }
-
-    public InputStream getData() {
-        return data;
+    public DocumentData getDocumentData() {
+        return documentData;
     }
 }

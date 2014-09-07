@@ -1,8 +1,11 @@
 package pl.jmilkiewicz.fas.application.repository;
 
 import pl.jmilkiewicz.fas.application.model.Document;
+import pl.jmilkiewicz.fas.application.model.DocumentData;
 import pl.jmilkiewicz.fas.application.model.DocumentStorage;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,7 +19,20 @@ import java.util.List;
 public class InMemoryDocStorage implements DocumentStorage{
     private List<Document> docs = new LinkedList();
     @Override
-    public void addDocument(Document doc) {
-        docs.add(doc);
+    public Document addDocument(DocumentData doc) {
+        Document document = new Document(docs.size(), doc);
+        docs.add(document);
+        return document;
+    }
+
+    @Override
+    public Collection<Document> getByUserName(String userName) {
+        List<Document> result = new ArrayList<>();
+        for (Document document : docs) {
+            if(document.getDocumentData().getUploadPerson().equals(userName)){
+                result.add(document);
+            }
+        }
+        return result;
     }
 }
