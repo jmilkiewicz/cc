@@ -10,7 +10,6 @@ import pl.jmilkiewicz.fas.application.View;
 import pl.jmilkiewicz.fas.application.ViewReference;
 
 import java.net.URI;
-import java.util.List;
 
 
 public class SpringNavigator implements Navigator {
@@ -48,8 +47,12 @@ public class SpringNavigator implements Navigator {
 
     @Override
     public void display(View view) {
-        throw new UnsupportedOperationException();
-        //To change body of implemented methods use File | Settings | File Templates.
+        result = new ResponseEntity(map(uriComponentsBuilder, view), HttpStatus.OK);
+    }
+
+    private ResponseBody map(UriComponentsBuilder uriComponentsBuilder, View view) {
+        String type = view.getSelfReference().getType();
+        return new ResponseBody(computeUri(uriComponentsBuilder, view.getSelfReference()), type, view.getData());
     }
 
 
