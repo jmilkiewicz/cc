@@ -14,7 +14,7 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 public interface DocumentStorage {
-    Document addDocument(DocumentData documentData);
+    Document addDocument(String name, String uploadPerson, Date documentDate, Date uploadDate, InputStream data);
 
     Collection<Document> getByUserName(String userName);
 

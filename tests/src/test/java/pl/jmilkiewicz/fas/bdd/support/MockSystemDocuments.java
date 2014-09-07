@@ -1,10 +1,9 @@
 package pl.jmilkiewicz.fas.bdd.support;
 
 import pl.jmilkiewicz.fas.application.model.Document;
-import pl.jmilkiewicz.fas.application.model.DocumentData;
 import pl.jmilkiewicz.fas.application.model.DocumentStorage;
 
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
@@ -18,61 +17,75 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class MockSystemDocuments implements SystemDocuments, DocumentStorage {
-    private Collection<Document> docs = new LinkedList<Document>();
+    private Collection<DocumentExample> docs = new LinkedList<DocumentExample>();
 
     @Override
     public Collection<DocumentExample> getAll() {
-        List<DocumentExample> result = new LinkedList<>();
-        for (Document doc : docs) {
-            result.add(DocumentExample.fromDocument(doc));
-        }
-        return  result;
+        return  docs;
     }
 
     @Override
     public void add(List<DocumentExample> documentExamples) {
-        for (DocumentExample documentExample : documentExamples) {
-            try{
-                docs.add(documentExample.asDocument());
-            }catch (UnsupportedEncodingException e){
-                throw new RuntimeException(e);
-            }
-        }
+        docs.addAll(documentExamples);
     }
 
     @Override
     public Collection<Document> getByIds(Collection<Long> ids) {
-        List<Document> documents = new LinkedList<>();
-        for (Document doc : docs) {
-            if(ids.contains(doc.getId())){
-                documents.add(doc);
-            }
-        }
-        return documents;
+
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+
     @Override
-    public Document addDocument(DocumentData documentData) {
-        Document document = new Document(docs.size(), documentData);
-        docs.add(document);
-        return document;
+    public Document addDocument(String name, String uploadPerson, Date documentDate, Date uploadDate, InputStream data) {
+        DocumentExample documentExample = new DocumentExample();
+        documentExample.fileName= name;
+        documentExample.id = docs.size();
+        documentExample.documentDate = documentDate;
+        documentExample.uploadPerson = uploadPerson;
+        documentExample.file = asString(data);
+        documentExample.uploadDate = uploadDate;
+        docs.add(documentExample);
+        return documentExample.asDocument();
+    }
+
+    private static String asString(InputStream data) {
+        try{
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(data, "UTF-8"));
+            //we do not care about closing
+            return bufferedReader.readLine();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static byte[] toByteArray(InputStream data) throws IOException {
+        byte[] targetArray = new byte[data.available()];
+        data.read(targetArray);
+        return targetArray;
     }
 
     @Override
     public Collection<Document> getByUserName(String userName) {
         List<Document> documents = new LinkedList<>();
-        for (Document doc : docs) {
-            if(doc.getDocumentData().getUploadPerson().equals(userName)){
-                documents.add(doc);
+        for (DocumentExample doc : docs) {
+            if(doc.uploadPerson.equals(userName)){
+                documents.add(doc.asDocument());
             }
         }
         return documents;
     }
 
+
+
     @Override
     public Collection<Document> getByUploadTimePeriod(Date from, Date to) {
         //fake
-        return docs;
+        List<Document> result = new LinkedList<>();
+        for (DocumentExample doc : docs) {
+            result.add(doc.asDocument());
+        }
+        return result;
     }
 
     @Override

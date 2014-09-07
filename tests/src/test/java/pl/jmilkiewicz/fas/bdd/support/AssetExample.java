@@ -16,14 +16,14 @@ import java.io.UnsupportedEncodingException;
 public class AssetExample {
     public String fileName;
     public String documentDate;
-    public String content;
+    public String file;
 
     public AssetExample() {
     }
 
     public InputStream content() {
         try {
-            return new ByteArrayInputStream(content.getBytes("UTF-8"));
+            return new ByteArrayInputStream(file.getBytes("UTF-8"));
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }

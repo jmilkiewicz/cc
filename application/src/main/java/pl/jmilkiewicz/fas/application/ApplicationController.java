@@ -1,7 +1,6 @@
 package pl.jmilkiewicz.fas.application;
 
 import pl.jmilkiewicz.fas.application.model.Document;
-import pl.jmilkiewicz.fas.application.model.DocumentData;
 import pl.jmilkiewicz.fas.application.model.DocumentStorage;
 
 import java.io.InputStream;
@@ -30,9 +29,8 @@ public class ApplicationController {
         Date documentDate = toDate(fileMetaData.getDocumentDate());
 
 
-        //TODO withMethods would be more readable
-        DocumentData documentData = new DocumentData(fileMetaData.getFileName(), fileMetaData.getUsername(),documentDate, new Date(),fileBody);
-        documentStorage.addDocument(documentData);
+        //TODO na razie upload Date jest zle
+        documentStorage.addDocument(fileMetaData.getFileName(), fileMetaData.getUsername(), documentDate, new Date(), fileBody);
 
 
         //TODO we shall use HMAC for Success
@@ -68,11 +66,10 @@ public class ApplicationController {
         return result;
     }
 
-    public InputStream getDocumentById(String documentId) {
+    public void getDocumentById(String documentId) {
         Document documentById = documentStorage.getDocumentById(Long.parseLong(documentId));
         if(documentById != null){
-            return documentById.getDocumentData().getData();
+
         }
-        return null;
     }
 }
