@@ -14,6 +14,7 @@ import pl.jmilkiewicz.fas.application.ApplicationController;
 import pl.jmilkiewicz.fas.application.FileMetaData;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.text.ParseException;
 
 @Controller
@@ -23,9 +24,9 @@ public class DocumentsController {
     private ApplicationController applicationController;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> getAllDocuments(@RequestParam("file") MultipartFile file) throws IOException, ParseException {
+    public ResponseEntity<?> getAllDocuments(@RequestParam("file") MultipartFile file, Principal principal) throws IOException, ParseException {
         SpringNavigator springNavigator = springNavigator();
-        applicationController.addFile(file.getInputStream(), new FileMetaData("fake","2000-01-01","fakeFileName"), springNavigator);
+        applicationController.addFile(file.getInputStream(), new FileMetaData(principal.getName(),"2000-01-01","fakeFileName"), springNavigator);
         return springNavigator.getResult();
     }
 
