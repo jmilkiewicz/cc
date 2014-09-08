@@ -15,6 +15,7 @@ import java.util.List;
 public class ViewReference {
     public static ViewReference DEFAULT = new ViewReference("documents");
     private String type;
+    private String dataRef;
     private List<Argument> arguments = new LinkedList<Argument>();
     private String contextData;
 
@@ -26,6 +27,7 @@ public class ViewReference {
         this.type = viewReference.type;
         this.contextData = viewReference.contextData;
         this.arguments.addAll(viewReference.arguments);
+        this.dataRef = viewReference.dataRef;
     }
 
     public ViewReference withType(String newType){
@@ -37,6 +39,12 @@ public class ViewReference {
     public ViewReference withContextDate(String newContextData){
         ViewReference result = new ViewReference(this);
         result.contextData = newContextData;
+        return result;
+    }
+
+    public ViewReference withDataRef(String newDataRef){
+        ViewReference result = new ViewReference(this);
+        result.dataRef = newDataRef;
         return result;
     }
 
@@ -58,6 +66,11 @@ public class ViewReference {
         return contextData;
     }
 
+
+    public String getDataRef() {
+        return dataRef;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -67,6 +80,7 @@ public class ViewReference {
 
         if (arguments != null ? !arguments.equals(that.arguments) : that.arguments != null) return false;
         if (contextData != null ? !contextData.equals(that.contextData) : that.contextData != null) return false;
+        if (dataRef != null ? !dataRef.equals(that.dataRef) : that.dataRef != null) return false;
         if (type != null ? !type.equals(that.type) : that.type != null) return false;
 
         return true;
@@ -75,6 +89,7 @@ public class ViewReference {
     @Override
     public int hashCode() {
         int result = type != null ? type.hashCode() : 0;
+        result = 31 * result + (dataRef != null ? dataRef.hashCode() : 0);
         result = 31 * result + (arguments != null ? arguments.hashCode() : 0);
         result = 31 * result + (contextData != null ? contextData.hashCode() : 0);
         return result;
@@ -84,6 +99,7 @@ public class ViewReference {
     public String toString() {
         return "ViewReference{" +
                 "type='" + type + '\'' +
+                ", dataRef='" + dataRef + '\'' +
                 ", arguments=" + arguments +
                 ", contextData='" + contextData + '\'' +
                 '}';
