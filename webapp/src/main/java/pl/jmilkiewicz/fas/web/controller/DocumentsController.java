@@ -2,7 +2,6 @@ package pl.jmilkiewicz.fas.web.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,9 +46,16 @@ public class DocumentsController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value= "/{docId}")
+    public ResponseEntity<?> getDocumentMetadata(@PathVariable("docId") String documentId) throws IOException, ParseException {
+        SpringNavigator springNavigator = springNavigator();
+        applicationController.getFileMetaData(documentId, springNavigator);
+        return springNavigator.getResult();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value= "/{docId}/body")
     public ResponseEntity<?> getDocumentBody(@PathVariable("docId") String documentId) throws IOException, ParseException {
         SpringNavigator springNavigator = springNavigator();
-        applicationController.getDocumentById(documentId, springNavigator);
+        applicationController.getFileBody(documentId, springNavigator);
         return springNavigator.getResult();
     }
 

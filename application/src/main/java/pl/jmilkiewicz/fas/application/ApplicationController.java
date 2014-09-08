@@ -77,16 +77,6 @@ public class ApplicationController {
         return result;
     }
 
-    //TODO change name
-    public void getDocumentById(String documentId, Navigator navigator) {
-        Document documentById = documentStorage.getDocumentById(Long.parseLong(documentId));
-        if(documentById == null){
-            navigator.notFound();
-        }else{
-            navigator.display(documentById.getContent());
-        }
-    }
-
     public void getFileMetaData(String fileRef, Navigator navigator) {
         Document documentById = documentStorage.getDocumentById(Long.parseLong(fileRef));
         if(documentById == null){
