@@ -67,7 +67,7 @@ public class ApplicationSteps {
 
     @Then("^\"([^\"]*)\" will go to files uploaded by \"([^\"]*)\"$")
     public void will_go_to_files_uploaded_by(String userGivenName, String uploadedBy) throws Throwable {
-        //TODO sprawdzmy type
+        assertThat(capturedViewReference().getType(), is(ViewReference.DEFAULT.getType()));
         assertThat(capturedViewReference().getArguments(), contains(new Argument("user", uploadedBy)));
     }
 
