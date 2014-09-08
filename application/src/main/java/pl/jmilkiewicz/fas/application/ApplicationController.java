@@ -95,4 +95,14 @@ public class ApplicationController {
             navigator.display(new View(ViewReference.DEFAULT.withDataRef(fileRef), documentById.getDocumentMetaData()));
         }
     }
+
+    public void getFileBody(String fileRef, Navigator navigator) {
+        Document documentById = documentStorage.getDocumentById(Long.parseLong(fileRef));
+        if(documentById == null){
+            navigator.notFound();
+        }else{
+            navigator.display(documentById.getContent());
+        }
+
+    }
 }

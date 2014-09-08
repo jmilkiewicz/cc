@@ -28,6 +28,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.verify;
@@ -100,6 +101,12 @@ public class ApplicationSteps {
         return argument.getValue();
     }
 
+    private byte[] capturedBytes() {
+        ArgumentCaptor<byte[]> argument = ArgumentCaptor.forClass(byte[].class);
+        verify(navigator, only()).display(argument.capture());
+        return argument.getValue();
+    }
+
     @Then("^\"([^\"]*)\" will see following document list entries:$")
     public void will_see_following_document_list_entries(String userGivenName,
                                                             List<DocumentListEntry> expectedDocumentListEntries) throws Throwable {
@@ -138,5 +145,17 @@ public class ApplicationSteps {
     @Then("^\"([^\"]*)\" will receive feedback that file does not exists$")
     public void will_receive_feedback_that_file_does_not_exists(String userGivenName) throws Throwable {
         verify(navigator, only()).notFound();
+    }
+
+    @When("^\"([^\"]*)\" gets content of file \"([^\"]*)\"$")
+    public void gets_content_of_file(String userGivenName, String fileRef) throws Throwable {
+        navigator = Mockito.mock(Navigator.class);
+        controller.getFileBody(fileRef, navigator);
+    }
+
+    @Then("^\"([^\"]*)\" will get \"([^\"]*)\" file$")
+    public void will_get_file(String userGivenName, String file) throws Throwable {
+        byte[] expectedBytes = file.getBytes("utf-8");
+        assertThat(capturedBytes(), is(expectedBytes));
     }
 }
