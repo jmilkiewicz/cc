@@ -1,6 +1,7 @@
 package pl.jmilkiewicz.fas.bdd.support;
 
 import pl.jmilkiewicz.fas.application.model.Document;
+import pl.jmilkiewicz.fas.application.model.DocumentMetaData;
 
 import java.io.*;
 import java.util.Date;
@@ -23,13 +24,13 @@ public class DocumentExample {
     public Document asDocument()  {
         try {
             byte[] bytes = file.getBytes("UTF-8");
-            return new Document().
-                                withId(id).
-                                withDocumentDate(documentDate).
-                                withName(name).
-                                withUploadDate(uploadDate).
-                                withContent(bytes).
-                                withUploadPerson(uploadPerson);
+            return new Document(new DocumentMetaData().
+                                            withId(id).
+                                            withDocumentDate(documentDate).
+                                            withName(name).
+                                            withUploadDate(uploadDate).
+                                            withUploadPerson(uploadPerson)
+                                        , bytes);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
