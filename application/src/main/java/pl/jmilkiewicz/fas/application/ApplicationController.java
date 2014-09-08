@@ -24,13 +24,13 @@ public class ApplicationController {
         this.documentStorage = documentStorage;
     }
 
-    public void addFile(InputStream fileBody, FileMetaData fileMetaData, Navigator navigator) throws ParseException {
+    public void addFile(InputStream fileBody, FileMetaData fileMetaData, Date now, Navigator navigator) throws ParseException {
         //TODO validate
         Date documentDate = toDate(fileMetaData.getDocumentDate());
 
 
         //TODO na razie upload Date jest zle
-        documentStorage.addDocument(fileMetaData.getFileName(), fileMetaData.getUsername(), documentDate, new Date(), fileBody);
+        documentStorage.addDocument(fileMetaData.getFileName(), fileMetaData.getUsername(), documentDate, now, fileBody);
 
 
         //TODO we shall use HMAC for Success
@@ -70,6 +70,8 @@ public class ApplicationController {
         Document documentById = documentStorage.getDocumentById(Long.parseLong(documentId));
         if(documentById == null){
             navigator.notFound();
+        }else{
+            navigator.display(documentById.getContent());
         }
     }
 }

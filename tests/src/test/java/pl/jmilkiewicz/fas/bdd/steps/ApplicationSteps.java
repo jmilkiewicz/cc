@@ -18,6 +18,7 @@ import pl.jmilkiewicz.fas.bdd.support.DocumentExample;
 import pl.jmilkiewicz.fas.bdd.support.SystemDocuments;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -40,6 +41,7 @@ public class ApplicationSteps {
     private ApplicationController controller;
 
     private String message;
+    private Date now;
 
     @Given("^\"([^\"]*)\" is an authenticated user$")
     public void is_an_authenticated_user(String userGivenName) throws Throwable {
@@ -50,7 +52,7 @@ public class ApplicationSteps {
     public void adds_an_asset(String userGivenName, List<AssetExample> assetExamples) throws Throwable {
         AssetExample assetExample = assetExamples.get(0);
         navigator = Mockito.mock(Navigator.class);
-        controller.addFile(assetExample.content(), assetExample.metadata(userGivenName), navigator);
+        controller.addFile(assetExample.content(), assetExample.metadata(userGivenName), now, navigator);
     }
 
     @Then("^\"([^\"]*)\" will see a message indicating success$")
@@ -117,4 +119,8 @@ public class ApplicationSteps {
         assertThat(capturedView().getMessages(), containsInAnyOrder(new String[]{messageBody}));
     }
 
+    @Given("^now is \"([^\"]*)\"$")
+    public void now_is(Date now) throws Throwable {
+        this.now = now;
+    }
 }
