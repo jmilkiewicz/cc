@@ -6,6 +6,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import pl.jmilkiewicz.fas.application.*;
 import pl.jmilkiewicz.fas.application.ff.DocumentListEntry;
 import pl.jmilkiewicz.fas.application.model.Document;
+import pl.jmilkiewicz.fas.application.model.DocumentMetaData;
 import pl.jmilkiewicz.fas.bdd.support.AssetExample;
 import pl.jmilkiewicz.fas.bdd.support.DocumentExample;
 import pl.jmilkiewicz.fas.bdd.support.SystemDocuments;
@@ -118,5 +120,23 @@ public class ApplicationSteps {
     @Given("^now is \"([^\"]*)\"$")
     public void now_is(Date now) throws Throwable {
         this.now = now;
+    }
+
+    @When("^\"([^\"]*)\" comes to details of file \"([^\"]*)\"$")
+    public void comes_to_details_of_file(String userGivenName, String fileRef) throws Throwable {
+        navigator = Mockito.mock(Navigator.class);
+        controller.getFileMetaData(fileRef, navigator);
+
+    }
+
+    @Then("^\"([^\"]*)\" will see the following file meta data$")
+    public void will_see_the_following_file_meta_data(String userGivenName, List<DocumentMetaData> listOfdocumentMetaData) throws Throwable {
+        DocumentMetaData documentMetaData = listOfdocumentMetaData.get(0);
+        assertThat((DocumentMetaData)capturedView().getData(), is(documentMetaData));
+    }
+
+    @Then("^\"([^\"]*)\" will receive feedback that file does not exists$")
+    public void will_receive_feedback_that_file_does_not_exists(String userGivenName) throws Throwable {
+        verify(navigator, only()).notFound();
     }
 }
