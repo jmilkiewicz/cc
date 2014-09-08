@@ -27,8 +27,8 @@ public class InMemoryDocStorage implements DocumentStorage{
                                          withDocumentDate(documentDate).
                                          withUploadDate(uploadDate).
                                          withName(name).
-                                         withContent(toByteArray(data));
-
+                                         withContent(toByteArray(data)).
+                                         withUploadPerson(uploadPerson);
             docs.add(document);
             return document;
         } catch (IOException e) {
@@ -61,7 +61,7 @@ public class InMemoryDocStorage implements DocumentStorage{
 
     @Override
     public Document getDocumentById(long documentId) {
-        if(documentId > docs.size()){
+        if(documentId >= docs.size()){
             return null;
         }
         return docs.get((int) documentId);
