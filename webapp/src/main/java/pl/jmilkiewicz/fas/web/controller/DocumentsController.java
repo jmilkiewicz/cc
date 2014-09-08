@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,7 @@ import pl.jmilkiewicz.fas.application.FileMetaData;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/documents")
@@ -26,7 +28,7 @@ public class DocumentsController {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> getAllDocuments(@RequestParam("file") MultipartFile file, Principal principal) throws IOException, ParseException {
         SpringNavigator springNavigator = springNavigator();
-        applicationController.addFile(file.getInputStream(), new FileMetaData(principal.getName(),"2000-01-01","fakeFileName"), springNavigator);
+        applicationController.addFile(file.getInputStream(), new FileMetaData(principal.getName(), "2000-01-01", "fakeFileName"),new Date(), springNavigator);
         return springNavigator.getResult();
     }
 
@@ -43,6 +45,14 @@ public class DocumentsController {
         applicationController.filesUploadedBetween(from, to, springNavigator);
         return springNavigator.getResult();
     }
+
+    @RequestMapping(method = RequestMethod.GET, value= "/{docId}")
+    public ResponseEntity<?> getDocumentBody(@PathVariable("docId") String documentId) throws IOException, ParseException {
+        SpringNavigator springNavigator = springNavigator();
+        applicationController.getDocumentById(documentId, springNavigator);
+        return springNavigator.getResult();
+    }
+
 
     private SpringNavigator springNavigator() {
         return new SpringNavigator(ServletUriComponentsBuilder.fromCurrentServletMapping());
