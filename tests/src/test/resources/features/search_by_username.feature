@@ -16,7 +16,7 @@ Feature: Search docs by username
 
   Scenario: Documents found
     #TODO czy to dobra nazwa
-    When "John" goes to documents of "Lucy"
+    When "John" goes to files uploaded by "Lucy"
     #Then "John" will see following documents:
     # |Id | FileName    |  DocumentDate   | Content       | UploadPerson |
     # |1  | file1.txt   |   01/01/11      | file1Content  | Lucy         |
