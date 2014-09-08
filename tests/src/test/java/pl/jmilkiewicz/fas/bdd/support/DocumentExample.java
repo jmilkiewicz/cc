@@ -14,7 +14,7 @@ import java.util.Date;
  */
 public class DocumentExample {
     public long id;
-    public String fileName;
+    public String name;
     public Date documentDate;
     public Date uploadDate;
     public String file;
@@ -23,7 +23,13 @@ public class DocumentExample {
     public Document asDocument()  {
         try {
             byte[] bytes = file.getBytes("UTF-8");
-            return new Document().withId(id).withDocumentDate(documentDate).withName(fileName).withUploadDate(uploadDate).withContent(bytes);
+            return new Document().
+                                withId(id).
+                                withDocumentDate(documentDate).
+                                withName(name).
+                                withUploadDate(uploadDate).
+                                withContent(bytes).
+                                withUploadPerson(uploadPerson);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
@@ -39,7 +45,7 @@ public class DocumentExample {
         if (id != that.id) return false;
         if (documentDate != null ? !documentDate.equals(that.documentDate) : that.documentDate != null) return false;
         if (file != null ? !file.equals(that.file) : that.file != null) return false;
-        if (fileName != null ? !fileName.equals(that.fileName) : that.fileName != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (uploadDate != null ? !uploadDate.equals(that.uploadDate) : that.uploadDate != null) return false;
         if (uploadPerson != null ? !uploadPerson.equals(that.uploadPerson) : that.uploadPerson != null) return false;
 
@@ -49,7 +55,7 @@ public class DocumentExample {
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (fileName != null ? fileName.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (documentDate != null ? documentDate.hashCode() : 0);
         result = 31 * result + (uploadDate != null ? uploadDate.hashCode() : 0);
         result = 31 * result + (file != null ? file.hashCode() : 0);
@@ -61,7 +67,7 @@ public class DocumentExample {
     public String toString() {
         return "DocumentExample{" +
                 "id=" + id +
-                ", fileName='" + fileName + '\'' +
+                ", name='" + name + '\'' +
                 ", documentDate=" + documentDate +
                 ", uploadDate=" + uploadDate +
                 ", file='" + file + '\'' +
