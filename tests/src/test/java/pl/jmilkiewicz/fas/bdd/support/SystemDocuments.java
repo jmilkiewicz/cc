@@ -9,8 +9,6 @@ public interface SystemDocuments {
     Collection<DocumentExample> getAll();
 
     void add(List<DocumentExample> documents);
-
-    Collection<Document> getByIds(Collection<Long> ids);
 }
 
 

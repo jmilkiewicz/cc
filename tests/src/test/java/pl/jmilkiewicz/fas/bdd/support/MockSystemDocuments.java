@@ -30,16 +30,9 @@ public class MockSystemDocuments implements SystemDocuments, DocumentStorage {
     }
 
     @Override
-    public Collection<Document> getByIds(Collection<Long> ids) {
-
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-
-    @Override
     public Document addDocument(String name, String uploadPerson, Date documentDate, Date uploadDate, InputStream data) {
         DocumentExample documentExample = new DocumentExample();
-        documentExample.fileName= name;
+        documentExample.name = name;
         documentExample.id = docs.size();
         documentExample.documentDate = documentDate;
         documentExample.uploadPerson = uploadPerson;
