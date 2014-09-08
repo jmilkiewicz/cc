@@ -17,7 +17,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class MockSystemDocuments implements SystemDocuments, DocumentStorage {
-    private Collection<DocumentExample> docs = new LinkedList<DocumentExample>();
+    private List<DocumentExample> docs = new LinkedList<DocumentExample>();
 
     @Override
     public Collection<DocumentExample> getAll() {
@@ -83,6 +83,9 @@ public class MockSystemDocuments implements SystemDocuments, DocumentStorage {
 
     @Override
     public Document getDocumentById(long documentId) {
-        throw new UnsupportedOperationException();
+        if(documentId < docs.size()){
+            return docs.get((int)documentId).asDocument();
+        }
+        return null;
     }
 }
