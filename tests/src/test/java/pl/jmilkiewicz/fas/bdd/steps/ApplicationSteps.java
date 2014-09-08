@@ -13,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import pl.jmilkiewicz.fas.application.*;
+import pl.jmilkiewicz.fas.application.ff.DocumentListEntry;
 import pl.jmilkiewicz.fas.application.model.Document;
 import pl.jmilkiewicz.fas.bdd.support.AssetExample;
 import pl.jmilkiewicz.fas.bdd.support.DocumentExample;
@@ -105,10 +106,11 @@ public class ApplicationSteps {
         return argument.getValue();
     }
 
-    @Then("^\"([^\"]*)\" will see documents with following ids: \"([^\"]*)\"$")
-    public void will_see_documents_with_following_ids(String userGivenName, List<Long> ids) throws Throwable {
+    @Then("^\"([^\"]*)\" will see following document list entries:$")
+    public void will_see_following_document_list_entries(String userGivenName,
+                                                            List<DocumentListEntry> expectedDocumentListEntries) throws Throwable {
         assertThat(capturedView().getData(), instanceOf(Collection.class));
-        assertThat((Collection<Document>) capturedView().getData(), containsInAnyOrder(systemDocuments.getByIds(ids).toArray(new Document[0])));
+        assertThat((Collection<DocumentListEntry>) capturedView().getData(), containsInAnyOrder(expectedDocumentListEntries.toArray(new DocumentListEntry[0])));
     }
 
     @Given("^\"([^\"]*)\" is a pending message$")

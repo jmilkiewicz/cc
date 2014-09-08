@@ -1,5 +1,6 @@
 package pl.jmilkiewicz.fas.application;
 
+import pl.jmilkiewicz.fas.application.ff.DocumentListEntry;
 import pl.jmilkiewicz.fas.application.model.Document;
 import pl.jmilkiewicz.fas.application.model.DocumentStorage;
 
@@ -8,6 +9,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -44,7 +47,15 @@ public class ApplicationController {
 
     public void filesUploadedBy(String userName, String message, Navigator navigator) {
         Collection<Document> documentsFound = documentStorage.getByUserName(userName);
-        navigator.display(new View(ViewReference.DEFAULT,documentsFound, message));
+        navigator.display(new View(ViewReference.DEFAULT, asDocumentListEntry(documentsFound), message));
+    }
+
+    private static Collection<DocumentListEntry> asDocumentListEntry(Collection<Document> documentsFound) {
+        List<DocumentListEntry> result = new LinkedList();
+        for (Document document : documentsFound) {
+            result.add(DocumentListEntry.fromDocument(document));
+        }
+        return result;
     }
 
 
