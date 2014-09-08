@@ -1,7 +1,9 @@
 package pl.jmilkiewicz.fas.web.controller;
 
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.jmilkiewicz.fas.application.Argument;
@@ -55,10 +57,16 @@ public class SpringNavigator implements Navigator {
         result = new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
+    @Override
+    public void display(byte[] bytes) {
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        result = new ResponseEntity(bytes,responseHeaders, HttpStatus.OK);
+    }
+
     private ResponseBody map(UriComponentsBuilder uriComponentsBuilder, View view) {
         String type = view.getSelfReference().getType();
         return new ResponseBody(computeUri(uriComponentsBuilder, view.getSelfReference()), type, view.getData());
     }
-
 
 }
