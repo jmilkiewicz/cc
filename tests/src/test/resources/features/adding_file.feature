@@ -17,5 +17,4 @@ Feature: Add asset for a brand
       |Id | FileName    |  DocumentDate   | UploadDate   |  File        | UploadPerson |
       |0  | Croatia2014 |   01/01/11      | 01/01/14     |sunset.jpg    | John         |
     And "John" will go to files uploaded by "John"
-    #TODO a może will receive a feedback that his operation was succesfull
-    And "John" will see a message indicating success
+    And will receive a feedback that his operation was succesfull

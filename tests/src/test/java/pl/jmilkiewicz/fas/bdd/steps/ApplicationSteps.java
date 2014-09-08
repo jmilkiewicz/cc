@@ -1,6 +1,7 @@
 package pl.jmilkiewicz.fas.bdd.steps;
 
 
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -55,8 +56,8 @@ public class ApplicationSteps {
         controller.addFile(assetExample.content(), assetExample.metadata(userGivenName), now, navigator);
     }
 
-    @Then("^\"([^\"]*)\" will see a message indicating success$")
-    public void will_see_a_message_indicating_success(String userGivenName) throws Throwable {
+    @Then("^will receive a feedback that his operation was succesfull$")
+    public void will_receive_a_feedback_that_his_operation_was_succesfull() throws Throwable {
         assertThat(capturedViewReference().getContextData(), is("Success"));
     }
 
@@ -110,8 +111,8 @@ public class ApplicationSteps {
         assertThat((Collection<Document>) capturedView().getData(), containsInAnyOrder(systemDocuments.getByIds(ids).toArray(new Document[0])));
     }
 
-    @Given("^\"([^\"]*)\" message has been appended$")
-    public void message_has_been_appended(String messageBody) throws Throwable {
+    @Given("^\"([^\"]*)\" is a pending message$")
+    public void is_a_pending_message(String messageBody) throws Throwable {
         this.message = messageBody;
     }
 
