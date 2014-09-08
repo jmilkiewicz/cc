@@ -1,6 +1,7 @@
 package pl.jmilkiewicz.fas.application.ff;
 
 import pl.jmilkiewicz.fas.application.model.Document;
+import pl.jmilkiewicz.fas.application.model.DocumentMetaData;
 
 import java.util.Date;
 
@@ -24,8 +25,12 @@ public class DocumentListEntry {
         this.documentDate = documentDate;
     }
 
-    public static DocumentListEntry fromDocument(Document document){
-        return new DocumentListEntry(document.getId(), document.getName(), document.getUploadPerson(), document.getDocumentDate());
+    public static DocumentListEntry fromDocument(DocumentMetaData documentMetadata){
+        return new DocumentListEntry(
+                                documentMetadata.getId(),
+                                documentMetadata.getName(),
+                                documentMetadata.getUploadPerson(),
+                                documentMetadata.getDocumentDate());
     }
 
     public long getId() {

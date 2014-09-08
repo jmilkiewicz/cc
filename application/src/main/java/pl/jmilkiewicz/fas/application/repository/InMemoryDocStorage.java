@@ -1,6 +1,7 @@
 package pl.jmilkiewicz.fas.application.repository;
 
 import pl.jmilkiewicz.fas.application.model.Document;
+import pl.jmilkiewicz.fas.application.model.DocumentMetaData;
 import pl.jmilkiewicz.fas.application.model.DocumentStorage;
 
 import java.io.IOException;
@@ -21,14 +22,15 @@ public class InMemoryDocStorage implements DocumentStorage{
     public Document addDocument(String name, String uploadPerson, Date documentDate, Date uploadDate, InputStream data) {
         long id = docs.size();
         try {
-            Document document =
-                                 new Document().
-                                         withId(id).
-                                         withDocumentDate(documentDate).
-                                         withUploadDate(uploadDate).
-                                         withName(name).
-                                         withContent(toByteArray(data)).
-                                         withUploadPerson(uploadPerson);
+            Document document = new Document(
+                                        new DocumentMetaData().
+                                             withId(id).
+                                             withDocumentDate(documentDate).
+                                             withUploadDate(uploadDate).
+                                             withName(name).
+                                             withUploadPerson(uploadPerson),
+                                            toByteArray(data));
+
             docs.add(document);
             return document;
         } catch (IOException e) {
@@ -46,7 +48,7 @@ public class InMemoryDocStorage implements DocumentStorage{
     public Collection<Document> getByUserName(String userName) {
         List<Document> result = new ArrayList<>();
         for (Document document : docs) {
-            if(document.getUploadPerson().equals(userName)){
+            if(document.getDocumentMetaData().getUploadPerson().equals(userName)){
                 result.add(document);
             }
         }
