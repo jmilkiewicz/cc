@@ -44,10 +44,18 @@ public class HttpMessageConverter extends AbstractHttpMessageConverter<ResponseB
         request.setAttribute("it", responseBody);
         try {
             HttpServletResponse servletResponse = getServletResponse(outputMessage);
-            request.getRequestDispatcher("/WEB-INF/jsp/" + responseBody.getType() + ".jsp").forward(request, servletResponse);
+            request.getRequestDispatcher("/WEB-INF/jsp/" + determineJspName(responseBody) + ".jsp").forward(request, servletResponse);
         } catch (ServletException e) {
             throw new IOException(e);
         }
+    }
+
+    private String determineJspName(ResponseBody responseBody) {
+        String suffix = "";
+        if(responseBody.isDetailView()){
+            suffix = "List";
+        }
+        return responseBody.getType() + suffix ;
     }
 
     private HttpServletResponse getServletResponse(HttpOutputMessage outputMessage) {
