@@ -25,7 +25,7 @@ public class Document {
         this.uploadPerson = other.uploadPerson;
         this.uploadDate = copyOrReturnNullIfNotSet(other.uploadDate);
         this.documentDate = copyOrReturnNullIfNotSet(other.documentDate);
-        this.content = Arrays.copyOf(content, content.length);
+        this.content = Arrays.copyOf(other.content, other.content.length);
     }
 
     private Date copyOrReturnNullIfNotSet(Date other) {
