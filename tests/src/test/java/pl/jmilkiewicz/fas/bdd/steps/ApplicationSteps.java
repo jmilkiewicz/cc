@@ -92,14 +92,6 @@ public class ApplicationSteps {
         controller.filesUploadedBy(uploadUserName, message, navigator);
     }
 
-    @Then("^\"([^\"]*)\" will see following documents:$")
-    public void will_see_following_documents(String userGivenName, List<DocumentExample> documentExamples) throws Throwable {
-        //TODO do sprawdzenia lub wywalenia
-        assertThat(capturedView().getData(), instanceOf(Collection.class));
-        Matcher[] documentMatcher = null;///asDocumentMatchers(documentExamples);
-        assertThat((Collection<Document>) capturedView().getData(), containsInAnyOrder(documentMatcher));
-    }
-
     private View capturedView() {
         ArgumentCaptor<View> argument = ArgumentCaptor.forClass(View.class);
         verify(navigator, only()).display(argument.capture());
