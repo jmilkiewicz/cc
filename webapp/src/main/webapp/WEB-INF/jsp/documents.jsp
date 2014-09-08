@@ -19,9 +19,9 @@
 <c:forEach items="${it.data}" var="document">
         <div class="row">
                 ${document.id}
-                ${document.documentData.name}
-                ${document.documentData.uploadPerson}
-                ${document.documentData.documentDate}
+                ${document.name}
+                ${document.uploadPerson}
+                ${document.documentDate}
             </div>
         </div>
 </c:forEach>
