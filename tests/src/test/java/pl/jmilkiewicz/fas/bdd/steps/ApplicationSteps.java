@@ -90,7 +90,6 @@ public class ApplicationSteps {
 
     @When("^\"([^\"]*)\" goes to files uploaded by \"([^\"]*)\"$")
     public void goes_to_files_uploaded_by(String userGivenName, String uploadUserName) throws Throwable {
-        //TODO czy nie lepiej w BeforeScenario
         navigator = Mockito.mock(Navigator.class);
         controller.filesUploadedBy(uploadUserName, message, navigator);
     }
