@@ -50,6 +50,7 @@ public class ApplicationController {
 
 
     public void filesUploadedBetween(String startDate, String endDate, Navigator navigator) throws ParseException {
+        //TODO handle parsing exception
         //TODO a może lepiej ustawić datę mocno w tył
         Date from = parseOrReturnDefaultOnNull(startDate, null);
         //TODO a może lepiej ustawić datę mocno w przód
