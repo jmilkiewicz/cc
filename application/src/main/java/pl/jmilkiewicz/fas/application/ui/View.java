@@ -1,4 +1,4 @@
-package pl.jmilkiewicz.fas.application;
+package pl.jmilkiewicz.fas.application.ui;
 
 import java.util.*;
 

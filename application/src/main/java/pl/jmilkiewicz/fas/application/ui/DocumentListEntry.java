@@ -1,6 +1,5 @@
-package pl.jmilkiewicz.fas.application.ff;
+package pl.jmilkiewicz.fas.application.ui;
 
-import pl.jmilkiewicz.fas.application.model.Document;
 import pl.jmilkiewicz.fas.application.model.DocumentMetaData;
 
 import java.util.Date;

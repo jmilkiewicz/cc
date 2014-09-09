@@ -1,6 +1,6 @@
 package pl.jmilkiewicz.fas.bdd.support;
 
-import pl.jmilkiewicz.fas.application.FileMetaData;
+import pl.jmilkiewicz.fas.application.ui.FileMetaData;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

@@ -1,7 +1,5 @@
 package pl.jmilkiewicz.fas.application.model;
 
-import pl.jmilkiewicz.fas.application.FileMetaData;
-
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Date;

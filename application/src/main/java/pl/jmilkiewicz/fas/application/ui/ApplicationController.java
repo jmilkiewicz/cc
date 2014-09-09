@@ -1,6 +1,5 @@
-package pl.jmilkiewicz.fas.application;
+package pl.jmilkiewicz.fas.application.ui;
 
-import pl.jmilkiewicz.fas.application.ff.DocumentListEntry;
 import pl.jmilkiewicz.fas.application.model.Document;
 import pl.jmilkiewicz.fas.application.model.DocumentStorage;
 

@@ -1,15 +1,14 @@
 package pl.jmilkiewicz.fas.web.controller;
 
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
-import pl.jmilkiewicz.fas.application.Argument;
-import pl.jmilkiewicz.fas.application.Navigator;
-import pl.jmilkiewicz.fas.application.View;
-import pl.jmilkiewicz.fas.application.ViewReference;
+import pl.jmilkiewicz.fas.application.ui.Argument;
+import pl.jmilkiewicz.fas.application.ui.Navigator;
+import pl.jmilkiewicz.fas.application.ui.View;
+import pl.jmilkiewicz.fas.application.ui.ViewReference;
 
 import java.net.URI;
 

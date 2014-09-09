@@ -1,7 +1,5 @@
-package pl.jmilkiewicz.fas.application;
+package pl.jmilkiewicz.fas.application.ui;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 

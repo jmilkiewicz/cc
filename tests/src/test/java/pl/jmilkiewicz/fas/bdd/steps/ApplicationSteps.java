@@ -1,21 +1,16 @@
 package pl.jmilkiewicz.fas.bdd.steps;
 
 
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import pl.jmilkiewicz.fas.application.*;
-import pl.jmilkiewicz.fas.application.ff.DocumentListEntry;
-import pl.jmilkiewicz.fas.application.model.Document;
+import pl.jmilkiewicz.fas.application.ui.*;
 import pl.jmilkiewicz.fas.application.model.DocumentMetaData;
 import pl.jmilkiewicz.fas.bdd.support.AssetExample;
 import pl.jmilkiewicz.fas.bdd.support.DocumentExample;

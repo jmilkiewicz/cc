@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import pl.jmilkiewicz.fas.application.ApplicationController;
-import pl.jmilkiewicz.fas.application.FileMetaData;
+import pl.jmilkiewicz.fas.application.ui.ApplicationController;
+import pl.jmilkiewicz.fas.application.ui.FileMetaData;
 
 import java.io.IOException;
 import java.security.Principal;
