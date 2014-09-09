@@ -12,13 +12,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: milus
- * Date: 9/5/14
- * Time: 12:31 PM
- * To change this template use File | Settings | File Templates.
- */
 public class ApplicationController {
     public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
     private DocumentStorage documentStorage;
@@ -31,10 +24,7 @@ public class ApplicationController {
         //TODO validate
         Date documentDate = toDate(fileMetaData.getDocumentDate());
 
-
-        //TODO na razie upload Date jest zle
         documentStorage.addDocument(fileMetaData.getFileName(), fileMetaData.getUsername(), documentDate, now, fileBody);
-
 
         //TODO we shall use HMAC for Success
         navigator.goTo(ViewReference.DEFAULT.withArgument(new Argument("user",fileMetaData.getUsername())).withContextDate("Success"));
@@ -66,7 +56,7 @@ public class ApplicationController {
         Date to = parseOrReturnDefaultOnNull(endDate, null);
 
         Collection<Document> documentsFound = documentStorage.getByUploadTimePeriod(from, to);
-        navigator.display(new View(ViewReference.DEFAULT,documentsFound));
+        navigator.display(new View(ViewReference.DEFAULT, documentsFound));
     }
 
     private Date parseOrReturnDefaultOnNull(String date, Date defaultReturn) throws ParseException {
