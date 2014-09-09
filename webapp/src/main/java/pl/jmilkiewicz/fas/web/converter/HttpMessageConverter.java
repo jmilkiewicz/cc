@@ -52,7 +52,7 @@ public class HttpMessageConverter extends AbstractHttpMessageConverter<ResponseB
 
     private String determineJspName(ResponseBody responseBody) {
         String suffix = "";
-        if(responseBody.isDetailView()){
+        if(!responseBody.isDetailView()){
             suffix = "List";
         }
         return responseBody.getType() + suffix ;

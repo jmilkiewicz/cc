@@ -11,17 +11,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
-
-
-
 <body>
+<c:if test="${empty it.data}">
+    No Documents!!!!!!!!!!!!!!!!!!!!!!
+</c:if>
 
-                ${it.data.name}
-                ${it.data.uploadPerson}
-                ${it.data.documentDate}
-                ${it.data.uploadDate}
+<c:forEach items="${it.data}" var="document">
+        <div class="row">
+                ${document.id}
+                ${document.name}
+                ${document.uploadPerson}
+                ${document.documentDate}
+            </div>
+        </div>
+</c:forEach>
 </body>
-
-
-
 </html>

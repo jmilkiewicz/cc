@@ -35,6 +35,11 @@ public class SpringNavigator implements Navigator {
 
     private URI computeUri(UriComponentsBuilder uriComponentsBuilder, ViewReference viewReference) {
         UriComponentsBuilder componentsBuilder = UriComponentsBuilder.fromUri(uriComponentsBuilder.build().toUri()).pathSegment(new String[]{viewReference.getType()});
+
+        if (viewReference.getDataRef()!= null) {
+            componentsBuilder = componentsBuilder.pathSegment(new String[] { viewReference.getDataRef() });
+        }
+
         if(!viewReference.getArguments().isEmpty()){
             for (Argument argument : viewReference.getArguments()) {
                 componentsBuilder = componentsBuilder.queryParam(argument.getName(), argument.getValue());
@@ -65,8 +70,8 @@ public class SpringNavigator implements Navigator {
     }
 
     private ResponseBody map(UriComponentsBuilder uriComponentsBuilder, View view) {
-        String type = view.getSelfReference().getType();
-        return new ResponseBody(computeUri(uriComponentsBuilder, view.getSelfReference()), type, view.getData());
+        ViewReference selfReference = view.getSelfReference();
+        return new ResponseBody(computeUri(uriComponentsBuilder, selfReference), selfReference.getType(), selfReference.getDataRef(), view.getData());
     }
 
 }
