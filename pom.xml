@@ -16,6 +16,7 @@
         <module>application</module>
         <module>tests</module>
         <module>webapp</module>
+        <module>java_client</module>
     </modules>
     <packaging>pom</packaging>
     <name>service project</name>
