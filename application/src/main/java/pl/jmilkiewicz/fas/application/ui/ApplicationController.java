@@ -56,7 +56,7 @@ public class ApplicationController {
         Date to = parseOrReturnDefaultOnNull(endDate, null);
 
         Collection<Document> documentsFound = documentStorage.getByUploadTimePeriod(from, to);
-        navigator.display(new View(ViewReference.DEFAULT, documentsFound));
+        navigator.display(new View(ViewReference.DEFAULT,  asDocumentListEntry(documentsFound)));
     }
 
     private Date parseOrReturnDefaultOnNull(String date, Date defaultReturn) throws ParseException {
