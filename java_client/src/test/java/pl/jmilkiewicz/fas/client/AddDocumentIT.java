@@ -14,13 +14,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.client.*;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 import pl.jmilkiewicz.fas.client.support.NotFollowRedirectionStrategy;
 
 import java.io.File;
@@ -33,6 +28,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 public class AddDocumentIT {
+    private final Credentials credentials = new Credentials("user1", "password");
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
 
@@ -42,7 +38,7 @@ public class AddDocumentIT {
     public void setUp(){
         CloseableHttpClient httpClient = HttpClientBuilder.create().setRedirectStrategy(new NotFollowRedirectionStrategy()).build();
         RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory(httpClient));
-        fasClient = new FasClient(restTemplate, new Credentials("user1", "password"));
+        fasClient = new FasClient(restTemplate, credentials);
     }
 
     @Test
@@ -59,7 +55,7 @@ public class AddDocumentIT {
         assertThat(uri, notNullValue());
 
         List<NameValuePair> parse = URLEncodedUtils.parse(uri, "utf-8");
-        assertThat(parse, Matchers.<NameValuePair>hasItem(new NameValuePairMatcher("user","user1")));
+        assertThat(parse, Matchers.<NameValuePair>hasItem(new NameValuePairMatcher("user",credentials.getName())));
         assertThat(parse, Matchers.<NameValuePair>hasItem(new NameValuePairMatcher("message","Success")));
     }
 
