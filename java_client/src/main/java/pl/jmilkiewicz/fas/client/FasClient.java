@@ -4,8 +4,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpRequest;
+import org.springframework.http.*;
 import org.springframework.http.client.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -18,6 +17,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,18 +28,24 @@ import java.util.Arrays;
  * To change this template use File | Settings | File Templates.
  */
 public class FasClient {
+    public static final String BASE_URL = "http://localhost:9090/documents";
+    public static final String USER_DOCUMENTS_URL = BASE_URL +"?user={userName}";
     private final RestOperations restOperations;
-    private final MultiValueMap<String, Object> headers;
+    private final HttpHeaders headers;
 
     public FasClient(RestOperations restOperations, Credentials credentials) {
         this.restOperations = restOperations;
-        this.headers = new LinkedMultiValueMap();
-        this.headers.add("Authorization", getAuthorizationValue(credentials));
+        this.headers = buildHeaders(credentials);
+    }
+
+    private static HttpHeaders buildHeaders(Credentials credentials) {
+        HttpHeaders tmpHeaders = new HttpHeaders();
+        tmpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        tmpHeaders.add("Authorization", getAuthorizationValue(credentials));
+        return HttpHeaders.readOnlyHttpHeaders(tmpHeaders);
     }
 
     public URI addFile(File document, String documentDate){
-
-
         MultiValueMap<String, Object> parts = new
                 LinkedMultiValueMap<String, Object>();
         parts.add("fileName", document.getName());
@@ -46,13 +53,21 @@ public class FasClient {
         parts.add("file", new
                 FileSystemResource(document));
 
-        return restOperations.postForLocation("http://localhost:9090/documents", new HttpEntity(parts, new LinkedMultiValueMap<>(headers)));
+        return restOperations.postForLocation(BASE_URL, new HttpEntity(parts, headers));
     }
 
-    private final String getAuthorizationValue(Credentials credentials) {
+    private static final String getAuthorizationValue(Credentials credentials) {
         String auth = credentials.getName() + ":" + credentials.getPassword();
         byte[] encodedAuth = Base64.encodeBase64(
                 auth.getBytes(Charset.forName("US-ASCII")));
         return "Basic " + new String( encodedAuth );
+    }
+
+    public Map<String,Object> getDocumentsOf(final String userName) {
+        ResponseEntity<Map> exchange = restOperations.exchange(USER_DOCUMENTS_URL, HttpMethod.GET, new HttpEntity<>(headers), Map.class, userName);
+        if(exchange.getStatusCode()!= HttpStatus.OK){
+            throw new OperationFailedException(exchange.getStatusCode().value());
+        }
+        return  exchange.getBody();
     }
 }
