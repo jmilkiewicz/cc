@@ -25,7 +25,7 @@ public class DocumentsController {
     private ApplicationController applicationController;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> getAllDocuments(AddFileForm addFileForm, @RequestParam("file") MultipartFile file, Principal principal) throws IOException, ParseException {
+    public ResponseEntity<?> addFile(AddFileForm addFileForm, @RequestParam("file") MultipartFile file, Principal principal) throws IOException, ParseException {
         SpringNavigator springNavigator = springNavigator();
         applicationController.addFile(file.getInputStream(), new FileMetaData(principal.getName(),addFileForm.getDocumentDate(), addFileForm.getFileName()), new Date(), springNavigator);
         return springNavigator.getResult();
