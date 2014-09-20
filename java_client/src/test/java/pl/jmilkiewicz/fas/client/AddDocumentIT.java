@@ -1,24 +1,19 @@
 package pl.jmilkiewicz.fas.client;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.message.BasicNameValuePair;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 import org.springframework.http.client.*;
 import org.springframework.web.client.RestTemplate;
 import pl.jmilkiewicz.fas.client.support.NotFollowRedirectionStrategy;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
@@ -26,13 +21,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-public class AddDocumentIT {
-    private final Credentials credentials = new Credentials("user1", "password");
-    @Rule
-    public TemporaryFolder folder = new TemporaryFolder();
-
-    private FasClient fasClient;
-
+public class AddDocumentIT extends  AbstractBase{
     @Before
     public void setUp(){
         CloseableHttpClient httpClient = HttpClientBuilder.create().setRedirectStrategy(new NotFollowRedirectionStrategy()).build();
@@ -42,15 +31,15 @@ public class AddDocumentIT {
 
     @Test
     public void shouldBeAbleToAddDocument() throws IOException {
-        File file = folder.newFile("testFile.txt");
+        URI uri = fasClient.addFile(uploadedFile, "2011-02-02");
 
-        URI uri = fasClient.addFile(file, "2011-02-02");
+        assertRedirectionWithSuccessAndUserName(uri);
+    }
 
-
+    private void assertRedirectionWithSuccessAndUserName(URI uri) {
         assertThat(uri, notNullValue());
-
         List<NameValuePair> parse = URLEncodedUtils.parse(uri, "utf-8");
-        assertThat(parse, Matchers.<NameValuePair>hasItem(new NameValuePairMatcher("user",credentials.getName())));
+        assertThat(parse, Matchers.<NameValuePair>hasItem(new NameValuePairMatcher("user", credentials.getName())));
         assertThat(parse, Matchers.<NameValuePair>hasItem(new NameValuePairMatcher("message","Success")));
     }
 

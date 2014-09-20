@@ -31,14 +31,10 @@ import java.util.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-public class ReadDocumentsIT {
-    private final Credentials credentials = new Credentials("user1", "password");
-    @Rule
-    public TemporaryFolder folder = new TemporaryFolder();
+public class ReadDocumentsIT extends AbstractBase{
 
-    private FasClient fasClient;
     private BigInteger sampleDocumentId;
-    private File uploadedFile;
+
 
     @Before
     public void setUp() throws IOException {
@@ -61,7 +57,6 @@ public class ReadDocumentsIT {
 
         fasClient = new FasClient(restTemplate, credentials);
 
-        uploadedFile = createTempFile();
         sampleDocumentId = uploadDocument(uploadedFile);
     }
 
@@ -115,15 +110,6 @@ public class ReadDocumentsIT {
         return (BigInteger) stringObjectMap.get("id");
     }
 
-    private File createTempFile() throws IOException {
-        String uniqueFileName = "ABC" + System.currentTimeMillis();
-        File file = folder.newFile(uniqueFileName);
-        PrintWriter writer = new PrintWriter(file);
-        writer.write("some text abc");
-        writer.flush();
-        writer.close();
-        return file;
-    }
 
     private void assertDocumentMetadataReturned(Map<String, Object> response) {
         assertDataNotEmpty(response);
