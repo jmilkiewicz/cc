@@ -87,6 +87,38 @@ public class ReadDocumentsIT {
         assertThat(response, Matchers.<String>hasKey("data"));
     }
 
+    @Test
+    public void shallReturnDocumentMetadataById() throws IOException {
+        String uniqueFileName = "ABC" + System.currentTimeMillis();
+        fasClient.addFile(folder.newFile(uniqueFileName),"2011-02-02");
+        Map<String, Object> stringObjectMap = filterByDocumentName(fasClient.getDocumentsOf(credentials.getName()), uniqueFileName);
+        BigInteger docId = (BigInteger) stringObjectMap.get("id");
 
+        Map<String, Object> response = fasClient.getDocumentMetadata(docId.longValue());
+
+        assertDocumentMetadataReturned(response);
+
+    }
+
+    private void assertDocumentMetadataReturned(Map<String, Object> response) {
+        assertDataNotEmpty(response);
+        Map<String,Object> docMetadata = (Map<String, Object>) response.get("data");
+        assertThat(docMetadata, hasKey("id"));
+        assertThat(docMetadata, hasKey("name"));
+        assertThat(docMetadata, hasKey("documentDate"));
+        assertThat(docMetadata, hasKey("uploadPerson"));
+        assertThat(docMetadata, hasKey("uploadDate"));
+        assertThat(docMetadata, hasKey("name"));
+    }
+
+    private Map<String, Object> filterByDocumentName(Map<String, Object> documentsOf, String name) {
+        List<Map<String,Object>> data = (List<Map<String, Object>>) documentsOf.get("data");
+        for (Map<String, Object> stringObjectMap : data) {
+            if(stringObjectMap.get("name").equals(name)){
+                return stringObjectMap;
+            }
+        };
+        throw new RuntimeException("document with name" + name + " NOT FOUND");
+    }
 
 }
