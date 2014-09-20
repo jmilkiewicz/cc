@@ -28,7 +28,7 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class FasClient {
-    public static final String BASE_URL = "http://localhost:9090/documents";
+    public static final String BASE_URL = "http://localhost:8080/documents";
     public static final String USER_DOCUMENTS_URL = BASE_URL +"?user={userName}";
     private final RestOperations restOperations;
     private final HttpHeaders headers;
