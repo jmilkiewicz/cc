@@ -31,6 +31,7 @@ public class FasClient {
     public static final String BASE_URL = "http://localhost:8080/documents";
     public static final String USER_DOCUMENTS_URL = BASE_URL +"?user={userName}";
     public static final String DOCUMENT_METADATA_URL = BASE_URL +"/{documentId}";
+    public static final String DOCUMENT_BODY_URL = BASE_URL +"/{documentId}/body";
     private final RestOperations restOperations;
     private final HttpHeaders headers;
 
@@ -65,6 +66,8 @@ public class FasClient {
     }
 
     public Map<String,Object> getDocumentsOf(final String userName) {
+        //TODO clear duplication: act and if error throw - extract it to template
+
         ResponseEntity<Map> exchange = restOperations.exchange(USER_DOCUMENTS_URL, HttpMethod.GET, new HttpEntity<>(headers), Map.class, userName);
         if(exchange.getStatusCode()!= HttpStatus.OK){
             throw new OperationFailedException(exchange.getStatusCode().value());
@@ -79,5 +82,22 @@ public class FasClient {
             throw new OperationFailedException(exchange.getStatusCode().value());
         }
         return  exchange.getBody();
+    }
+
+
+    public byte[] getDocumentBody(long documentId) {
+        ResponseEntity<byte[]> exchange = restOperations.exchange(DOCUMENT_BODY_URL, HttpMethod.GET, new HttpEntity<>(setAcceptOctetStreamHeader(headers)), byte[].class, documentId);
+        if(exchange.getStatusCode()!= HttpStatus.OK){
+            throw new OperationFailedException(exchange.getStatusCode().value());
+        }
+        return  exchange.getBody();
+
+    }
+
+    private static HttpHeaders setAcceptOctetStreamHeader(HttpHeaders baseHeaders) {
+        HttpHeaders customHeader = new HttpHeaders();
+        customHeader.putAll(baseHeaders);
+        customHeader.setAccept(Arrays.asList(MediaType.APPLICATION_OCTET_STREAM));
+        return customHeader;
     }
 }

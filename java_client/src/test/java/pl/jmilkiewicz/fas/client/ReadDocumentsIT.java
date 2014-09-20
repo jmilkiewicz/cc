@@ -22,10 +22,10 @@ import org.springframework.web.client.RestTemplate;
 import pl.jmilkiewicz.fas.client.support.NotFollowRedirectionStrategy;
 
 import javax.xml.transform.Source;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -94,6 +94,19 @@ public class ReadDocumentsIT {
 
         assertDocumentMetadataReturned(response);
 
+    }
+
+    @Test
+    public void shallReturnDocumentBody() throws IOException {
+        byte[] expected = asByteArray(uploadedFile);
+
+        byte[] response = fasClient.getDocumentBody(sampleDocumentId.longValue());
+
+        assertThat("invalid byte retrieved",Arrays.equals(response, expected), is(true));
+    }
+
+    private byte[] asByteArray(File uploadedFile) throws IOException {
+        return Files.readAllBytes(Paths.get(uploadedFile.toURI()));
     }
 
     private BigInteger uploadDocument(File file) throws IOException {

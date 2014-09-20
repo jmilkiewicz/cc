@@ -20,7 +20,6 @@ import pl.jmilkiewicz.fas.client.support.NotFollowRedirectionStrategy;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.URI;
 import java.util.List;
 
@@ -44,10 +43,6 @@ public class AddDocumentIT {
     @Test
     public void shouldBeAbleToAddDocument() throws IOException {
         File file = folder.newFile("testFile.txt");
-        PrintWriter writer = new PrintWriter(file);
-        writer.write("some text abc");
-        writer.flush();
-        writer.close();
 
         URI uri = fasClient.addFile(file, "2011-02-02");
 
