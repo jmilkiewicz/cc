@@ -1,14 +1,10 @@
 package pl.jmilkiewicz.fas.client;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Rule;
@@ -26,7 +22,9 @@ import org.springframework.web.client.RestTemplate;
 import pl.jmilkiewicz.fas.client.support.NotFollowRedirectionStrategy;
 
 import javax.xml.transform.Source;
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.util.*;
 
@@ -39,9 +37,11 @@ public class ReadDocumentsIT {
     public TemporaryFolder folder = new TemporaryFolder();
 
     private FasClient fasClient;
+    private BigInteger sampleDocumentId;
+    private File uploadedFile;
 
     @Before
-    public void setUp(){
+    public void setUp() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(new ISO8601DateFormat());
         objectMapper.enable(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS);
@@ -60,14 +60,15 @@ public class ReadDocumentsIT {
                                                     mappingJackson2HttpMessageConverter));
 
         fasClient = new FasClient(restTemplate, credentials);
+
+        uploadedFile = createTempFile();
+        sampleDocumentId = uploadDocument(uploadedFile);
     }
 
     @Test
     public void shallReturnDocumentsOfParticularUser() throws IOException {
-        String uniqueFileName = "ABC" + System.currentTimeMillis();
-        fasClient.addFile(folder.newFile(uniqueFileName),"2011-02-02");
-
         Map<String, Object> documents = fasClient.getDocumentsOf(credentials.getName());
+
         assertContainsDocumentOf(documents, credentials.getName());
     }
 
@@ -89,15 +90,26 @@ public class ReadDocumentsIT {
 
     @Test
     public void shallReturnDocumentMetadataById() throws IOException {
-        String uniqueFileName = "ABC" + System.currentTimeMillis();
-        fasClient.addFile(folder.newFile(uniqueFileName),"2011-02-02");
-        Map<String, Object> stringObjectMap = filterByDocumentName(fasClient.getDocumentsOf(credentials.getName()), uniqueFileName);
-        BigInteger docId = (BigInteger) stringObjectMap.get("id");
-
-        Map<String, Object> response = fasClient.getDocumentMetadata(docId.longValue());
+        Map<String, Object> response = fasClient.getDocumentMetadata(sampleDocumentId.longValue());
 
         assertDocumentMetadataReturned(response);
 
+    }
+
+    private BigInteger uploadDocument(File file) throws IOException {
+        fasClient.addFile(file,"2011-02-02");
+        Map<String, Object> stringObjectMap = filterByDocumentName(fasClient.getDocumentsOf(credentials.getName()), file.getName());
+        return (BigInteger) stringObjectMap.get("id");
+    }
+
+    private File createTempFile() throws IOException {
+        String uniqueFileName = "ABC" + System.currentTimeMillis();
+        File file = folder.newFile(uniqueFileName);
+        PrintWriter writer = new PrintWriter(file);
+        writer.write("some text abc");
+        writer.flush();
+        writer.close();
+        return file;
     }
 
     private void assertDocumentMetadataReturned(Map<String, Object> response) {
